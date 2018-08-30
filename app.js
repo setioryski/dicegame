@@ -30,19 +30,22 @@ document.querySelector('.btn-roll').addEventListener('click',function(){
    
     if(gamePlaying){
     //1.random number
-   var dice=Math.floor(Math.random()* 6) + 1;
+   var dice1=Math.floor(Math.random()* 6) + 1;
+   var dice2=Math.floor(Math.random()* 6) + 1;
     
     //2.display result
-    var diceDOM =  document.querySelector('.dice');
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-'+dice+'.png';
+    document.getElementById('dice-1').style.display='block';
+    document.getElementById('dice-2').style.display='block';
+    document.getElementById('dice-1').src= 'dice-'+dice1+'.png';
+    document.getElementById('dice-2').src= 'dice-'+dice2+'.png';
+
 
     //3.update the roundscore if the rolled number was selected
 
-    if(dice!==1)
+    if(dice1 !==1 && dice2 !==1)
     {
         //addscore
-        roundScore += dice;
+        roundScore += dice1 + dice2;
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     } else {
         //nextplayer
@@ -61,10 +64,17 @@ scores[activePlayer] +=roundScore;
 //update the UI
     document.querySelector('#score-'+activePlayer).textContent = scores[activePlayer];
     
+    var input = document.querySelector('.final-score').value;
+    
+//undefine,0,null or "" are COERCED to false
+    if(input){
+    input;        
+    }else{ input = 100}
 //check if player won
-    if(scores[activePlayer] >= 20){
+    if(scores[activePlayer] >= input){
      document.querySelector('#name-'+activePlayer).textContent='Winner!'; 
-     document.querySelector('.dice').style.display='none';
+     document.getElementById('dice-1').style.display='none';
+     document.getElementById('dice-2').style.display='none';
      document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
      document.querySelector('.player-'+activePlayer+'-panel').classList.remove('winner');
      gamePlaying=false;
@@ -89,7 +99,8 @@ function nextPlayer() //DRY PRINCIPLE
         document.querySelector('.player-0-panel').classList.toggle('active'); 
         document.querySelector('.player-1-panel').classList.toggle('active');
         
-        document.querySelector('.dice').style.display='none';
+    document.getElementById('dice-1').style.display='none';
+     document.getElementById('dice-2').style.display='none';
     
      //document.querySelector('.player-0-panel').classList.remove('active'); // ini cara manuak dengan menggunakan add dan remove
         //document.querySelector('.player-1-panel').classList.add('active');
@@ -105,7 +116,8 @@ activePlayer=0;
 roundScore=0; 
 gamePlaying=true;
     
-document.querySelector('.dice').style.display = 'none'    
+document.getElementById('dice-1').style.display='none';
+document.getElementById('dice-2').style.display='none';    
 document.getElementById('score-0').textContent = '0';
 document.getElementById('score-1').textContent = '0';
 document.getElementById('current-0').textContent = '0';
